@@ -1,6 +1,11 @@
 package nsoft.automata;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.JFrame;
+
+import nsoft.automata.Cell.State;
 
 public class Main extends JFrame {
 
@@ -23,7 +28,6 @@ public class Main extends JFrame {
 				
 
 				update();
-				//Thread.sleep(20);
 			}
 		} catch (Exception e) {
 			
@@ -57,6 +61,43 @@ public class Main extends JFrame {
 		setVisible(true);
 		Simulation.start();
 		Render.start();
+		p.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				int x = e.getX()/gridSize;
+				int y = e.getY()/gridSize;
+				
+				cells[x][y].set(State.VIRUS);
+				System.out.println(x + " " + y);
+				
+			}
+		});
 		
 	}
 	

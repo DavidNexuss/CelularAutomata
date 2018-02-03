@@ -15,6 +15,7 @@ public class Cell {
 	
 	int lifeTime = 0;
 	int strenght = 0;
+	static boolean start = true;
 	public void act(Cell ... cells) {
 
 		lifeTime++;
@@ -22,6 +23,7 @@ public class Cell {
 		int Lvirus = 0;
 		int Lfood = 0;
 		int SF = 0;
+		int SV = 0;
 		int Snone = 0;
 		int Svirus = 0;
 		int Sfood = 0;
@@ -32,12 +34,13 @@ public class Cell {
 				
 				Sfood++ ; Ffood.add(cell); 
 				Lfood += cell.lifeTime;
-				SF += strenght;}
+				SF += cell.strenght;}
 			
 			else if(cell.current == State.VIRUS) { 
 				
 				Svirus++; Fvirus.add(cell); 
 				Lvirus+= cell.lifeTime;
+				SV += cell.strenght;
 				}
 			
 			else if(cell.current == State.NONE) {
@@ -55,9 +58,10 @@ public class Cell {
 				else set(State.NONE);
 				
 			}
-			else if(lifeTime > 700 && Sfood < 6) {
+			else if(Sfood > 5 && start) {
 				
 				set(State.VIRUS);
+				start = false;
 			}
 			else if(Lvirus > 700) {
 				
@@ -65,26 +69,30 @@ public class Cell {
 			}
 		}else if(current == State.FOOD) {
 			
-			if(Svirus> 3 && Lvirus > Lfood*(strenght * 10)) set(State.VIRUS);
+			if(Svirus> 3 && SV > SF) set(State.VIRUS);
 			else if(Sfood > 3) set(State.NONE);
+			//else if(Sfood == 3 && lifeTime < 1) set(State.NONE);
 			else if(Sfood < 1 && lifeTime > 0) set(State.NONE);
 			
 			strenght += Svirus;
 			
 		}else if(current == State.VIRUS) {
 			
-			if(Snone > 6) set(State.NONE);
-			if(lifeTime*SF > 100) set(State.NONE);
-			if(lifeTime > 40 && Svirus > 4) set(State.NONE);
-			if(lifeTime > 10 && Svirus > 3 && Sfood < 1) set(State.NONE);
-			if(SF > 20)set(State.FOOD);
-			if(Sfood == 0) { set(State.NONE);}
+			if(Snone == 8) set(State.NONE);
+			if(lifeTime > 80 && Svirus > 4) set(State.NONE);
+			if(lifeTime > 10 && Svirus > 4 && Sfood < 1) set(State.NONE);
+			if(Sfood == 0 && Lvirus > 200 && Svirus > 5) { set(State.NONE);}
 			if(Lvirus > Lfood) {
 				
 				for (Cell cell : Ffood) {
 					
-					cell.lifeTime -=1;
+					cell.lifeTime /=2;
 				}
+			}
+			
+			if(lifeTime > 50) {
+				
+				strenght+=Sfood*3/2;
 			}
 		}
 		
