@@ -119,12 +119,12 @@ public class Cell {
 	
 	public enum State{
 		
-		VIRUS(Color.RED)
-		,NONE(Color.BLACK)
-		,FOOD(Color.GREEN);
+		VIRUS(new float[] {1,0,0})
+		,NONE(new float[] {0,0,0})
+		,FOOD(new float[] {0,1,0});
 		
-		public Color color;
-		private State(Color c) {
+		public float[] color;
+		private State(float[] c) {
 			
 			color = c;
 		}
