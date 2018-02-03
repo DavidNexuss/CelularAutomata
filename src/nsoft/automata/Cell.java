@@ -6,8 +6,7 @@ import java.util.ArrayList;
 public class Cell {
 
 	
-	private static ArrayList<Cell> Ffood = new ArrayList<>();
-	private static ArrayList<Cell> Fvirus = new ArrayList<>();
+	private static Cell[] Ffood = new Cell[8];
 	public static int virusMaxPwr = 1;
 	public static int maxLifeTime = 1;
 	private boolean needUp = true;
@@ -17,38 +16,41 @@ public class Cell {
 	int strenght = 0;
 	static boolean start = true;
 	int act = 1;
+	
+	public static void clean(Cell[] cells) {
+		
+		for (int i = 0; i < cells.length; i++) {
+			
+			cells[i] = null;
+		}
+	}
 	public void act(Cell ... cells) {
 
 		lifeTime++;
-		int Lnone = 0;
 		int Lvirus = 0;
 		int Lfood = 0;
 		int SF = 0;
 		int SV = 0;
-		int Snone = 0;
 		int Svirus = 0;
 		int Sfood = 0;
 		
-		for (Cell cell : cells) {
+		for (int i = 0; i < cells.length; i++) {
 			
+
+			Cell cell = cells[i];
 			if(cell.current == State.FOOD) {
 				
-				Sfood++ ; Ffood.add(cell); 
+				Sfood++ ; Ffood[i] = cell;
 				Lfood += cell.lifeTime;
 				SF += cell.strenght;}
 			
 			else if(cell.current == State.VIRUS) { 
 				
-				Svirus++; Fvirus.add(cell); 
+				Svirus++;
 				Lvirus+= cell.lifeTime;
 				SV += cell.strenght;
 				}
 			
-			else if(cell.current == State.NONE) {
-				
-				Snone++;
-				Lnone += cell.lifeTime;
-				}
 		}
 		
 		if(current == State.NONE) {
@@ -85,9 +87,10 @@ public class Cell {
 			//if(lifeTime > 10 && Svirus > 4 && Sfood < 1) set(State.NONE);
 			if(Lvirus > Lfood) {
 				
-				for (Cell cell : Ffood) {
+				for (int j = 0; j < Ffood.length; j++) {
 					
-					cell.lifeTime -=10;
+					if(Ffood[j] == null)continue;
+					Ffood[j].lifeTime -= 10;
 					
 				}
 			}
@@ -104,8 +107,7 @@ public class Cell {
 				strenght = (strenght + SV/8)/2;
 			}
 		}
-		Ffood.clear();
-		Fvirus.clear();
+		clean(Ffood);
 	}
 	
 	public Cell() {

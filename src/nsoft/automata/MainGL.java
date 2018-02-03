@@ -207,7 +207,7 @@ public class MainGL {
 						}else {
 							glColor3f(
 									cells[i][j].current.color[0],
-									cells[i][j].current.color[1] * cells[i][j].strenght/Cell.maxLifeTime+ .7f,
+									cells[i][j].current.color[1] * cells[i][j].strenght/Cell.maxLifeTime+ .8f,
 									cells[i][j].current.color[2]);
 						}
 						
