@@ -5,17 +5,18 @@ import java.util.ArrayList;
 
 public class Cell {
 
-	private static ArrayList<Cell> Fnone = new ArrayList<>();
+	
 	private static ArrayList<Cell> Ffood = new ArrayList<>();
 	private static ArrayList<Cell> Fvirus = new ArrayList<>();
-	
-	
+	public static int virusMaxPwr = 1;
+	public static int maxLifeTime = 1;
 	private boolean needUp = true;
 	public State current = State.NONE;
 	
 	int lifeTime = 0;
 	int strenght = 0;
 	static boolean start = true;
+	int act = 1;
 	public void act(Cell ... cells) {
 
 		lifeTime++;
@@ -45,7 +46,7 @@ public class Cell {
 			
 			else if(cell.current == State.NONE) {
 				
-				Snone++; Fnone.add(cell); 
+				Snone++;
 				Lnone += cell.lifeTime;
 				}
 		}
@@ -59,45 +60,50 @@ public class Cell {
 				
 			}
 			else if(Sfood > 5 && start) {
-				
+					
 				set(State.VIRUS);
 				start = false;
 			}
-			else if(Lvirus > 400) {
+			else if(Lvirus > 400*Svirus) {
 				
 				set(State.VIRUS);
 			}
 		}else if(current == State.FOOD) {
 			
 			if(Svirus> 3 && SV > SF) set(State.VIRUS);
+			if(Svirus> 4 ) { set(State.VIRUS); strenght+= Svirus + SV/7 + SF/8;}
 			else if(Sfood > 3) set(State.NONE);
 			//else if(Sfood == 3 && lifeTime < 1) set(State.NONE);
 			else if(Sfood < 1 && lifeTime > 0) set(State.NONE);
 			if(lifeTime < -2000000) set(State.NONE);
-			strenght += Svirus;
+			if(lifeTime > maxLifeTime) maxLifeTime = lifeTime;
 			
 		}else if(current == State.VIRUS) {
 			
-			if(Snone == 8) set(State.NONE);
-			if(lifeTime > 80 && Svirus > 4) set(State.NONE);
-			if(lifeTime > 10 && Svirus > 4 && Sfood < 1) set(State.NONE);
-			if(Sfood == 0 && Lvirus > 200 && Svirus > 5) { set(State.NONE);}
+			//if(Snone == 7) set(State.NONE);
+			//if(lifeTime > 80 && Svirus > 4) set(State.NONE);
+			//if(lifeTime > 10 && Svirus > 4 && Sfood < 1) set(State.NONE);
 			if(Lvirus > Lfood) {
 				
 				for (Cell cell : Ffood) {
 					
-					cell.lifeTime -=2;
+					cell.lifeTime -=10;
 					
 				}
 			}
 			
-			if(lifeTime > 50) {
+			if(lifeTime > 50 && Sfood > 0) {
 				
-				strenght+=Sfood*3/2;
+				strenght = Sfood*3/2 + (strenght + SV/7)/2;
+				if(strenght > virusMaxPwr) virusMaxPwr = strenght;
+			}
+			
+			if(lifeTime > 5000*act) {
+				
+				act+=1;
+				strenght = (strenght + SV/8)/2;
 			}
 		}
-		
-		Fnone.clear();
 		Ffood.clear();
 		Fvirus.clear();
 	}

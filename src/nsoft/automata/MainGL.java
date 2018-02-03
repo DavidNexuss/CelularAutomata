@@ -198,9 +198,19 @@ public class MainGL {
 					if(cells[i][j].isUpdated()) {
 						
 						if(cells[i][j].current == State.NONE) continue;
-						glColor3f(cells[i][j].current.color[0],
-								cells[i][j].current.color[1],
-								cells[i][j].current.color[2]);
+						if(cells[i][j].current == State.VIRUS) {
+							
+							glColor3f(
+									cells[i][j].current.color[0] * cells[i][j].strenght/Cell.virusMaxPwr + .3f,
+									cells[i][j].current.color[1],
+									cells[i][j].current.color[2]);
+						}else {
+							glColor3f(
+									cells[i][j].current.color[0],
+									cells[i][j].current.color[1] * cells[i][j].strenght/Cell.maxLifeTime+ .7f,
+									cells[i][j].current.color[2]);
+						}
+						
 						glBegin(GL_QUADS);
 						
 							glVertex2f(i*gridSize, j*gridSize);
