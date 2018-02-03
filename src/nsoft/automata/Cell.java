@@ -5,10 +5,9 @@ import java.util.ArrayList;
 
 public class Cell {
 
-	
-	private static Cell[] Ffood = new Cell[8];
 	public static int virusMaxPwr = 1;
 	public static int maxLifeTime = 1;
+	
 	private boolean needUp = true;
 	public State current = State.NONE;
 	
@@ -17,13 +16,6 @@ public class Cell {
 	static boolean start = true;
 	int act = 1;
 	
-	public static void clean(Cell[] cells) {
-		
-		for (int i = 0; i < cells.length; i++) {
-			
-			cells[i] = null;
-		}
-	}
 	public void act(Cell ... cells) {
 
 		lifeTime++;
@@ -40,9 +32,15 @@ public class Cell {
 			Cell cell = cells[i];
 			if(cell.current == State.FOOD) {
 				
-				Sfood++ ; Ffood[i] = cell;
+				Sfood++ ;
 				Lfood += cell.lifeTime;
-				SF += cell.strenght;}
+				SF += cell.strenght;
+			
+				if(Lvirus > Lfood && current == State.VIRUS) {
+					
+					cell.lifeTime-=10;
+				}
+			}
 			
 			else if(cell.current == State.VIRUS) { 
 				
@@ -85,15 +83,7 @@ public class Cell {
 			//if(Snone == 7) set(State.NONE);
 			//if(lifeTime > 80 && Svirus > 4) set(State.NONE);
 			//if(lifeTime > 10 && Svirus > 4 && Sfood < 1) set(State.NONE);
-			if(Lvirus > Lfood) {
-				
-				for (int j = 0; j < Ffood.length; j++) {
-					
-					if(Ffood[j] == null)continue;
-					Ffood[j].lifeTime -= 10;
-					
-				}
-			}
+			
 			
 			if(lifeTime > 50 && Sfood > 0) {
 				
@@ -107,7 +97,6 @@ public class Cell {
 				strenght = (strenght + SV/8)/2;
 			}
 		}
-		clean(Ffood);
 	}
 	
 	public Cell() {
