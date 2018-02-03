@@ -63,7 +63,7 @@ public class Cell {
 				set(State.VIRUS);
 				start = false;
 			}
-			else if(Lvirus > 700) {
+			else if(Lvirus > 400) {
 				
 				set(State.VIRUS);
 			}
@@ -73,7 +73,7 @@ public class Cell {
 			else if(Sfood > 3) set(State.NONE);
 			//else if(Sfood == 3 && lifeTime < 1) set(State.NONE);
 			else if(Sfood < 1 && lifeTime > 0) set(State.NONE);
-			
+			if(lifeTime < -2000000) set(State.NONE);
 			strenght += Svirus;
 			
 		}else if(current == State.VIRUS) {
@@ -86,7 +86,8 @@ public class Cell {
 				
 				for (Cell cell : Ffood) {
 					
-					cell.lifeTime /=2;
+					cell.lifeTime -=2;
+					
 				}
 			}
 			
