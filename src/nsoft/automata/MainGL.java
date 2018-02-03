@@ -52,7 +52,7 @@ public class MainGL {
 		init();
 		initCells();
 		Simulation.setPriority(Thread.MAX_PRIORITY);
-		Simulation.start();
+		
 		loop();
 
 		// Free the window callbacks and destroy the window
@@ -186,7 +186,7 @@ public class MainGL {
 		
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
-		
+		Simulation.start();
 		while ( !glfwWindowShouldClose(window) ) {
 			
 

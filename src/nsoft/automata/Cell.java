@@ -16,7 +16,7 @@ public class Cell {
 	static boolean start = true;
 	int act = 1;
 	
-	public void act(Cell ... cells) {
+	public final void act(Cell ... cells) {
 
 		lifeTime++;
 		int Lvirus = 0;
@@ -102,7 +102,7 @@ public class Cell {
 	public Cell() {
 		
 	}
-	public void set(State a) {
+	public final void set(State a) {
 		
 		
 		lifeTime = 0;
@@ -112,7 +112,7 @@ public class Cell {
 		needUp = true;
 	}
 	public void update() {needUp = true;}
-	public boolean isUpdated() {return needUp;}
+	public final boolean isUpdated() {return needUp;}
 	
 	public enum State{
 		
